@@ -3,6 +3,7 @@ using OpenCvSharp;
 public class Util
 {
 	public static int step = 1;
+	public static double font = 0.5;
 
 	public static IEnumerable<Mat<Vec3b>> GetFrames(VideoCapture video)
 	{
@@ -30,7 +31,7 @@ public class Util
 			{
 				double average = Textify.AverageRange(indexer, y, Math.Min(y + step, frame.Height), x, Math.Min(x + step, frame.Width));
 				string text = Textify.Convert(average / 256).ToString();
-				Cv2.PutText(modified, text, new Point(x, y), HersheyFonts.HersheyPlain, 0.5, Scalar.White, 1);
+				Cv2.PutText(modified, text, new Point(x, y), HersheyFonts.HersheyPlain, font, Scalar.White, 1);
 			}
 		}
 

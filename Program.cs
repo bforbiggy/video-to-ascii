@@ -2,21 +2,15 @@
 using OpenCvSharp;
 
 Util.step = 8;
+Util.font = 0.5;
 
-// Parse input
-VideoCapture video = new VideoCapture("quaso.mp4");
-double width = video.Get(3);
-double height = video.Get(4);
+VideoCapture capture = new VideoCapture(0);
+Window window = new Window("Camera");
 
-// Prepare output
-VideoWriter output = new VideoWriter("output.avi", FourCC.DIVX, video.Fps, new Size(width, height));
-foreach (Mat<Vec3b> frame in Util.GetFrames(video))
+Mat<Vec3b> image = new Mat<Vec3b>();
+while (capture.Read(image))
 {
-	// Convert frame and write to output
-	Mat modified = Util.ParseFrame(frame);
-	output.Write(modified);
+	Mat<Vec3b> frame = new Mat<Vec3b>(image);
+	window.ShowImage(Util.ParseFrame(frame));
+	Cv2.WaitKey(30); // Apparently waits for cam
 }
-
-// Cleanup program
-video.Release();
-output.Release();
